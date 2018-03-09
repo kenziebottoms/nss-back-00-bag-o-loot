@@ -17,9 +17,10 @@ module.exports.createTable = () => {
                 }
                 resolve();
             })
-            .run(`CREATE TABLE IF NOT EXISTS toys(
+            .run(`CREATE TABLE IF NOT EXISTS bag(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT
+                toy TEXT,
+                childId INTEGER
             )`, (err) => {
                 if (err) {
                     console.log("toy table creation error", err);
