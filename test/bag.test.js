@@ -53,7 +53,7 @@ describe("helper fns", () => {
                     assert.isNumber(response);
                 })
                 .catch(err => {
-                    console.log(err);
+                    console.log("addToy() error",err);
                 });
         });
     });
@@ -65,13 +65,13 @@ describe("helper fns", () => {
                 })
                 .catch(err => console.log(err));
         });
-        it("Millie should have ID 1", () => {
+        it("Millie should have ID 4", () => {
             getChildId("Millie")
                 .then(id => {
-                    assert.equal(id, 1);
+                    assert.equal(id, 4);
                 })
                 .catch(err => {
-                    console.log(err);
+                    console.log("getChildId() error", err);
                 });
         });
         it("A name with no correspondent in the DB should need catching", () => {
@@ -95,6 +95,21 @@ describe("helper fns", () => {
             addChild("Mary")
                 .then(response => {
                     assert.isNumber(response);
+                })
+                .catch(err => {
+                    console.log("addChild() err", err);
+                });
+        });
+        it("doesn't create duplicates", () => {
+            let first, second;
+            addChild("Mary")
+                .then(response => {
+                    first = response;
+                    return addChild("Mary");
+                })
+                .then(response => {
+                    second = response;
+                    assert.equal(first, second);
                 })
                 .catch(err => {
                     console.log("addChild() err", err);

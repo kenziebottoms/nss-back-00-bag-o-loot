@@ -30,6 +30,10 @@ module.exports.delivered = (child) => {
 
 module.exports.addToy = (toy, childId) => {
     return new Promise((resolve, reject) => {
+        db.all(`SELECT * FROM bag WHERE toy = "${toy}" AND childId = ${childId}`, (err, data) => {
+            if (err) return reject(err);
+            if (data[0]) resolve(data[0].id);
+        });
         db.run(`INSERT INTO bag VALUES(
             null, "${toy}", ${childId}
         )`, function(err) {
