@@ -19,13 +19,13 @@ module.exports.add = (toy, child) => {
 };
 
 module.exports.remove = (child, toy) => {
-    // return new Promise((resolve, reject) => {
-    //     module.exports.getChildId(child)
-    //         .then(childId => {
-    //             deleteToy(toy, childId);
-    //         })
-    //         .catch(err => reject(err));
-    // });
+    return new Promise((resolve, reject) => {
+        module.exports.getToy(child, toy)
+            .then(toyId => {
+                return deleteToy(toyId);
+            })
+            .catch(err => console.log("this toy doesn't exist"));
+    });
 };
 
 module.exports.list = (child) => {
@@ -87,7 +87,7 @@ module.exports.addChild = child => {
     });
 };
 
-// returns id of the toy belonging to child
+// returns id of the toy belonging to child; rejects if none
 module.exports.getToy = (toy, child) => {
     return new Promise((resolve, reject) => {
         module.exports.getChildId(child)
@@ -100,10 +100,22 @@ module.exports.getToy = (toy, child) => {
                         if (data[0]) {
                             resolve(data[0].id);
                         } else {
-                            reject();
+                            reject("No results");
                         }
                     });
             })
             .catch(err => reject(err));
+    });
+};  
+
+module.exports.deleteToy = toyId => {
+    return new Promise((resolve, reject) => {
+        db.run(`DELETE FROM bag WHERE id = ${toyId}`, function(err) {
+            if (err) {
+                return reject(err);
+            } else {
+                resolve(toyId);
+            }
+        });
     });
 };

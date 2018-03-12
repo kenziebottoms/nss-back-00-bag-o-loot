@@ -4,7 +4,7 @@ const { createTable } = require("../js/createTable");
 const { assert } = require("chai");
 const { add, remove, list, delivered,
         addToy, getChildId, addChild,
-        getToy } = require("../js/bag");
+        getToy, deleteToy } = require("../js/bag");
 
 describe("main fnality", () => {
     describe("add()", () => {
@@ -143,6 +143,36 @@ describe("helper fns", () => {
                 })
                 .catch(err => {
                     assert.equal(0,1);
+                });
+        });
+    });
+    describe("deleteToy()", () => {
+        it("is function", () => {
+            assert.isFunction(deleteToy);
+        });
+        it("deletes a toy", () => {
+            addToy("iCat", 7)
+                .then(toyId => {
+                    deleteToy(toyId)
+                        .then(response => {
+                            getToy("iCat", "Mary")
+                                .then(response => {
+                                    assert.equal(0,1);
+                                })
+                                .catch(err => {
+                                    assert.equal(1,1);
+                                });
+                        })
+                        .catch(err => console.log("deleteToy()",err));
+                });
+        });
+        it("rejects if a toy doesn't exist", () => {
+            deleteToy("whatever",9)
+                .then(response => {
+                    assert.equal(0,1);
+                })
+                .catch(err => {
+                    assert.equal(1,1);
                 });
         });
     });
