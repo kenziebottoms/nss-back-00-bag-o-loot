@@ -169,3 +169,15 @@ module.exports.deleteToy = toyId => {
         });
     });
 };
+
+module.exports.deliver = child => {
+    return new Promise((resolve, reject) => {
+        db.run(`UPDATE children
+                    SET delivered = "true"
+                WHERE children.name = "${child}"`,
+            function(err) {
+                if (err) return reject(err);
+                resolve("delivered");
+            });
+    });
+};

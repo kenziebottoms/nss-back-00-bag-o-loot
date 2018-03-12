@@ -27,10 +27,10 @@ createTable()
                 }
                 break;
             case "delivered":
-                // TODO: delivered [child]
+                bag.delivered(args[1]);
                 break;
             default:
-                console.log(`Usage:\n\t./lootbag.js [add, remove, ls, delivered] [params]`);
+                console.log(`Usage:\n\tjs/lootbag.js [add, remove, ls, delivered] [params]`);
         }
     })
     .catch(err => {

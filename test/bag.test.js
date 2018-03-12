@@ -4,7 +4,8 @@ const { createTable } = require("../js/createTable");
 const { assert } = require("chai");
 const { add, remove, list, delivered,
         addToy, getChildId, addChild,
-        getToy, deleteToy, listAll } = require("../js/bag");
+        getToy, deleteToy, listAll,
+        deliver } = require("../js/bag");
 
 describe("main fnality", () => {
     describe("add()", () => {
@@ -84,7 +85,7 @@ describe("main fnality", () => {
             assert.typeOf(delivered("Harry"), "promise");
         });
         it("resolves into an object", () => {
-            delivered("Harry")
+            delivered("Danny")
                 .then(delivered => {
                     assert.equal(delivered, "false");
                 })
@@ -238,6 +239,22 @@ describe("helper fns", () => {
                 .catch(err => {
                     assert.equal(1,1);
                 });
+        });
+    });
+    describe("deliver()", () => {
+        it("is a function", () => {
+            assert.isFunction(deliver);
+        });
+        it("should set delivered to true", () => {
+            deliver("Harry")
+                .then(response => {
+                    delivered("Harry")
+                        .then(delivered => {
+                            assert.equal(delivered, "true");
+                        })
+                        .catch(err => console.log("delivered()", err));
+                })
+                .catch(err => console.log("deliver()", err));
         });
     });
 });
