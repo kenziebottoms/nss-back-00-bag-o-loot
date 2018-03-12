@@ -3,7 +3,8 @@
 const { createTable } = require("../js/createTable");
 const { assert } = require("chai");
 const { add, remove, list, delivered,
-        addToy, getChildId, addChild } = require("../js/bag");
+        addToy, getChildId, addChild,
+        getToy } = require("../js/bag");
 
 describe("main fnality", () => {
     describe("add()", () => {
@@ -45,15 +46,30 @@ describe("helper fns", () => {
             assert.isFunction(addToy);
         });
         it("returns a promise", () => {
-            assert.typeOf(addToy("ball",1), "promise");
+            assert.typeOf(addToy("ball",4), "promise");
         });
         it("resolves into a number", () => {
-            addToy("ball", 1)
+            addToy("ball", 4)
                 .then(response => {
                     assert.isNumber(response);
                 })
                 .catch(err => {
                     console.log("addToy() error",err);
+                });
+        });
+        it("doesn't create duplicates", () => {
+            let first, second;
+            addToy("flying carpet", 6)
+                .then(response => {
+                    first = response;
+                    return addToy("flying carpet", 6);
+                })
+                .then(response => {
+                    second = response;
+                    assert.equal(first, second);
+                })
+                .catch(err => {
+                    console.log("addToy() err", err);
                 });
         });
     });
@@ -63,7 +79,7 @@ describe("helper fns", () => {
                 .then(id => {
                     assert.isNumber(id);
                 })
-                .catch(err => console.log(err));
+                .catch(err => console.log("getChildId() error", err));
         });
         it("Millie should have ID 4", () => {
             getChildId("Millie")
@@ -113,6 +129,20 @@ describe("helper fns", () => {
                 })
                 .catch(err => {
                     console.log("addChild() err", err);
+                });
+        });
+    });
+    describe("getToy()", () => {
+        it("is a fn", () => {
+            assert.isFunction(getToy);
+        });
+        it("getToy('zombie doll', 'Melanie') should return a toy", () => {
+            getToy("zombie doll", "Melanie")
+                .then(toyId => {
+                    assert.equal(1,1);
+                })
+                .catch(err => {
+                    assert.equal(0,1);
                 });
         });
     });

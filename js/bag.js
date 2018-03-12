@@ -8,8 +8,8 @@ const db = new sqlite3.Database("loot.sqlite");
 module.exports.add = (toy, child) => {
     return new Promise((resolve, reject) => {
         module.exports.addChild(child)
-            .then(id => {
-                return module.exports.addToy(toy, id);
+            .then(childId => {
+                return module.exports.addToy(toy, childId);
             })
             .then(toyId => {
                 resolve(toyId)
@@ -19,7 +19,13 @@ module.exports.add = (toy, child) => {
 };
 
 module.exports.remove = (child, toy) => {
-
+    // return new Promise((resolve, reject) => {
+    //     module.exports.getChildId(child)
+    //         .then(childId => {
+    //             deleteToy(toy, childId);
+    //         })
+    //         .catch(err => reject(err));
+    // });
 };
 
 module.exports.list = (child) => {
@@ -34,22 +40,27 @@ module.exports.delivered = (child) => {
 // returns toy.id
 module.exports.addToy = (toy, childId) => {
     return new Promise((resolve, reject) => {
-        db.all(`SELECT * FROM bag WHERE toy = "${toy}" AND childId = ${childId}`, (err, data) => {
-            if (err) return reject(err);
-            if (data[0]) resolve(data[0].id);
-        });
-        db.run(`INSERT INTO bag VALUES(
-            null, "${toy}", ${childId}
-        )`, function(err) {
-            if (err) return reject(err);
-            resolve(this.lastID);
-        })
+        module.exports.getToy(toy, childId)
+            .then(toyId => {
+                resolve(toyId);
+            })
+            .catch(err => {
+                db.run(`INSERT INTO bag VALUES(
+                        null, "${toy}", ${childId}
+                    )`, function (err) {
+                        if (err) return reject(err);
+                        resolve(this.lastID);
+                    })
+            });
     });
 };
 
-// returns id of given child name
+// resolves id of given child name if child exists; if not, rejects
 module.exports.getChildId = child => {
     return new Promise((resolve, reject) => {
+        if (parseInt(child)) {
+            resolve(+child);
+        }
         db.all(`SELECT id FROM children WHERE children.name = "${child}"`, (err, data) => {
             if (err) return reject(err);
             data[0] ? resolve(data[0].id) : reject();
@@ -69,9 +80,30 @@ module.exports.addChild = child => {
                 db.run(`INSERT INTO children VALUES(
                     null, "${child}", "false"
                 )`, function (err) {
-                    if (err) return reject(err);
-                    resolve(this.lastID);
-                });
+                        if (err) return reject(err);
+                        resolve(this.lastID);
+                    });
             });
+    });
+};
+
+// returns id of the toy belonging to child
+module.exports.getToy = (toy, child) => {
+    return new Promise((resolve, reject) => {
+        module.exports.getChildId(child)
+            .then(childId => {
+                db.all(`SELECT * FROM bag
+                        WHERE childId = ${childId}
+                        AND toy = "${toy}"`,
+                    (err, data) => {
+                        if (err) return reject(err);
+                        if (data[0]) {
+                            resolve(data[0].id);
+                        } else {
+                            reject();
+                        }
+                    });
+            })
+            .catch(err => reject(err));
     });
 };
