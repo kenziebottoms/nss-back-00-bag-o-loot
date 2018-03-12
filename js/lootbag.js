@@ -43,7 +43,10 @@ createTable()
                 }
                 break;
             case "delivered":
-                bag.delivered(args[1]);
+                bag.deliver(args[1])
+                    .then(response => {
+                        console.log(response);
+                    })
                 break;
             default:
                 console.log("Usage:");
