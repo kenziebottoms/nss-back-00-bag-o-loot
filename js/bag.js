@@ -31,6 +31,22 @@ module.exports.remove = (child, toy) => {
 };
 
 module.exports.list = (child) => {
+    return new Promise((resolve, reject) => {
+        module.exports.getChildId(child)
+            .then(childId => {
+                db.all(`SELECT * FROM bag
+                        WHERE childId = ${childId}`,
+                    (err, data) => {
+                        if (err) return reject(err);
+                        if (data[0]) {
+                            resolve(data);
+                        } else {
+                            reject("No results");
+                        }
+                    });
+            })
+            .catch(err => reject(err));
+    });
     return [{}];
 };
 

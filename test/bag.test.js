@@ -28,9 +28,25 @@ describe("main fnality", () => {
             assert.isFunction(list);
         });
         it("returns an array of objects", () => {
-            let ls = list();
-            assert.isArray(ls);
-            assert.isObject(ls[0]);
+            list("Melanie")
+                .then(toys => {
+                    assert.isArray(toys);
+                    assert.isObject(toys[0]);
+                })
+                .catch(err => console.log("list()", err));
+        });
+        it("returns the right objects", () => {
+            Promise.all([
+                add("Buzz", "Andy"),
+                add("Woody", "Andy")
+            ])
+                .then(ids => {
+                    list("Andy")
+                        .then(toys => {
+                            assert.equal(toys.length, 2);
+                        })
+                        .catch(err => console.log("list()", err));
+                })
         });
     });
     describe("delivered()", () => {
@@ -185,4 +201,5 @@ describe("helper fns", () => {
                 });
         });
     });
+
 });
