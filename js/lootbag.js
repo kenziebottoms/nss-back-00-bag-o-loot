@@ -23,7 +23,7 @@ createTable()
                 if (args[2]) {
                     bag.list(args[1], args[2]);
                 } else {
-                    // TODO: ls
+                    bag.listAll();
                 }
                 break;
             case "delivered":
