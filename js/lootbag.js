@@ -20,8 +20,13 @@ createTable()
                 bag.remove(args[1], args[2]);
                 break;
             case "ls":
-                if (args[2]) {
-                    bag.list(args[1], args[2]);
+                if (args[1]) {
+                    bag.list(args[1])
+                        .then(list => {
+                            console.log(`${args[1]}'s Toys:`);
+                            console.log(`==================`);
+                            list.forEach(l => console.log(l.toy));
+                        });
                 } else {
                     bag.listAll()
                         .then(response => {
