@@ -24,9 +24,9 @@ module.exports.remove = (child, toy) => {
     return new Promise((resolve, reject) => {
         module.exports.getToy(toy, child)
             .then(toyId => {
-                return deleteToy(toyId);
+                return module.exports.deleteToy(toyId);
             })
-            .catch(err => console.log("this toy doesn't exist"));
+            .catch(err => console.log(err));
     });
 };
 

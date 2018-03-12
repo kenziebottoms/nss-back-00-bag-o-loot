@@ -14,10 +14,16 @@ createTable()
 
         switch (command) {
             case "add":
-                bag.add(args[1], args[2]);
+                bag.add(args[1], args[2])
+                    .then(response => {
+                        console.log(response);
+                    });
                 break;
             case "remove":
-                bag.remove(args[1], args[2]);
+                bag.remove(args[1], args[2])
+                    .then(response => {
+                        console.log();
+                    });
                 break;
             case "ls":
                 if (args[1]) {
@@ -40,7 +46,12 @@ createTable()
                 bag.delivered(args[1]);
                 break;
             default:
-                console.log(`Usage:\n\tjs/lootbag.js [add, remove, ls, delivered] [params]`);
+                console.log("Usage:");
+                console.log("\tjs/lootbag.js add [toy] [child]");
+                console.log("\tjs/lootbag.js remove [child] [toy]");
+                console.log("\tjs/lootbag.js ls");
+                console.log("\tjs/lootbag.js ls [child]");
+                console.log("\tjs/lootbag.js delivered [child]");
         }
     })
     .catch(err => {
