@@ -3,6 +3,7 @@
 "use strict";
 
 const { createTable } = require("./createTable");
+const bag = require("./bag");
 
 createTable()
     .then(response => {
@@ -13,14 +14,17 @@ createTable()
 
         switch (command) {
             case "add":
-                // TODO: add [toy] [child]
+                bag.add(args[1], args[2]);
                 break;
             case "remove":
-                // TODO: remove [child] [toy]
+                bag.remove(args[1], args[2]);
                 break;
             case "ls":
-                // TODO: ls
-                // TODO: ls [child]
+                if (args[2]) {
+                    bag.list(args[1], args[2]);
+                } else {
+                    // TODO: ls
+                }
                 break;
             case "delivered":
                 // TODO: delivered [child]
