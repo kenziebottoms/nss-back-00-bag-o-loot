@@ -23,7 +23,12 @@ createTable()
                 if (args[2]) {
                     bag.list(args[1], args[2]);
                 } else {
-                    bag.listAll();
+                    bag.listAll()
+                        .then(response => {
+                            console.log("All Children receiving gifts");
+                            console.log("============================");
+                            response.forEach(r => console.log(r.name));
+                        });
                 }
                 break;
             case "delivered":
