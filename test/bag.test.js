@@ -4,7 +4,7 @@ const { createTable } = require("../js/createTable");
 const { assert } = require("chai");
 const { add, remove, list, delivered,
         addToy, getChildId, addChild,
-        getToy, deleteToy } = require("../js/bag");
+        getToy, deleteToy, listAll } = require("../js/bag");
 
 describe("main fnality", () => {
     describe("add()", () => {
@@ -47,6 +47,18 @@ describe("main fnality", () => {
                         })
                         .catch(err => console.log("list()", err));
                 })
+        });
+    });
+    describe("listAll()", () => {
+        it("is a function", () => {
+            assert.isFunction(listAll);
+        });
+        it("doesn't return children with no toys", () => {
+            listAll()
+                .then(response => {
+                    assert.equal(response.indexOf("Mary"), -1);
+                })
+                .catch(err => console.log("listAll()", err));
         });
     });
     describe("delivered()", () => {

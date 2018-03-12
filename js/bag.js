@@ -50,6 +50,22 @@ module.exports.list = (child) => {
     return [{}];
 };
 
+// returns list of children who are receiving gifts
+module.exports.listAll = () => {
+    return new Promise((resolve, reject) => {
+        db.all(`SELECT c.name FROM children c
+                JOIN bag b
+                    ON b.childId = c.id
+                GROUP BY c.name`,
+            (err, data) => {
+                if (err) return reject(err);
+                if (data[0]) {
+                    resolve(data);
+                } else { reject() }
+            });
+    });
+};
+
 module.exports.delivered = (child) => {
 
 };
