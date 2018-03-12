@@ -80,6 +80,18 @@ describe("main fnality", () => {
         it("is a function", () => {
             assert.isFunction(delivered);
         });
+        it("returns a promise", () => {
+            assert.typeOf(delivered("Harry"), "promise");
+        });
+        it("resolves into an object", () => {
+            delivered("Harry")
+                .then(delivered => {
+                    assert.equal(delivered, "false");
+                })
+                .catch(err => {
+                    console.log("delivered()", err);
+                });
+        });
     });
 });
 
@@ -228,5 +240,4 @@ describe("helper fns", () => {
                 });
         });
     });
-
 });

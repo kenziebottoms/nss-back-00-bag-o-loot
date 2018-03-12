@@ -68,7 +68,16 @@ module.exports.listAll = () => {
 
 module.exports.delivered = (child) => {
     return new Promise((resolve, reject) => {
-        db.all(`SELECT bag`)
+        db.all(`SELECT c.delivered FROM children c
+                WHERE c.name = "${child}"`,
+            (err, data) => {
+            if (err) return reject(err);
+            if (data[0]) {
+                resolve(data[0].delivered);
+            } else {
+                reject("no results");
+            }
+        });
     });
 };
 
