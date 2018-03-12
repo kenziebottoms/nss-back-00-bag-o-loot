@@ -17,6 +17,21 @@ describe("main fnality", () => {
                     assert.isNumber(toyId);
                 });
         });
+        it("should not create duplicates", () => {
+            let first, second;
+            add("Hungarian horntail", "Harry")
+                .then(response => {
+                    first = response;
+                    return add("Hungarian horntail", "Harry");
+                })
+                .then(response => {
+                    second = response;
+                    assert.equal(first, second);
+                })
+                .catch(err => {
+                    console.log("add()", err);
+                })
+        });
     });
     describe("remove()", () => {
         it("is a function", () => {
@@ -74,10 +89,10 @@ describe("helper fns", () => {
             assert.isFunction(addToy);
         });
         it("returns a promise", () => {
-            assert.typeOf(addToy("ball",4), "promise");
+            assert.typeOf(addToy("ball",1), "promise");
         });
         it("resolves into a number", () => {
-            addToy("ball", 4)
+            addToy("ball", 1)
                 .then(response => {
                     assert.isNumber(response);
                 })
@@ -103,14 +118,14 @@ describe("helper fns", () => {
     });
     describe("getChildId()", () => {
         it("should return a number", () => {
-            getChildId("Millie")
+            getChildId("Andy")
                 .then(id => {
                     assert.isNumber(id);
                 })
                 .catch(err => console.log("getChildId() error", err));
         });
-        it("Millie should have ID 4", () => {
-            getChildId("Millie")
+        it("Andy should have ID 4", () => {
+            getChildId("Andy")
                 .then(id => {
                     assert.equal(id, 4);
                 })

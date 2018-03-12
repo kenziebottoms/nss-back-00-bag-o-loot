@@ -22,7 +22,7 @@ module.exports.add = (toy, child) => {
 // rejects if the toy doesn't exist
 module.exports.remove = (child, toy) => {
     return new Promise((resolve, reject) => {
-        module.exports.getToy(child, toy)
+        module.exports.getToy(toy, child)
             .then(toyId => {
                 return deleteToy(toyId);
             })
@@ -67,7 +67,9 @@ module.exports.listAll = () => {
 };
 
 module.exports.delivered = (child) => {
-
+    return new Promise((resolve, reject) => {
+        db.all(`SELECT bag`)
+    });
 };
 
 // check if child already owns toy; if not, add toy under childId
@@ -115,7 +117,7 @@ module.exports.addChild = child => {
             })
             .catch(err => {
                 db.run(`INSERT INTO children VALUES(
-                    null, "${child}", "false"
+                    null, "${child}", "false", "false"
                 )`, function (err) {
                         if (err) return reject(err);
                         resolve(this.lastID);

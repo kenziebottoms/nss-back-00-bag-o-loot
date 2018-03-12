@@ -9,7 +9,8 @@ module.exports.createTable = () => {
             .run(`CREATE TABLE IF NOT EXISTS children(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT,
-                naughty BOOLEAN
+                naughty BOOLEAN,
+                delivered BOOLEAN
             )`, (err) => {
                 if (err) {
                     console.log("children table creation error", err);
