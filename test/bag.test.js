@@ -99,6 +99,15 @@ describe("helper fns", () => {
                     assert.equal(1,1);
                 });
         });
+        it("should return the id if it's given an id", () => {
+            getChildId(4)
+                .then(id => {
+                    assert.equal(id, 4);
+                })
+                .catch(err => {
+                    assert.equal(1, 0);
+                });
+        });
     });
     describe("addChild()", () => {
         it("is a function", () => {

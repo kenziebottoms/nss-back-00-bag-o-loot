@@ -18,6 +18,8 @@ module.exports.add = (toy, child) => {
     });
 };
 
+// removes from bag the given toy belonging to the given child
+// rejects if the toy doesn't exist
 module.exports.remove = (child, toy) => {
     return new Promise((resolve, reject) => {
         module.exports.getToy(child, toy)
@@ -55,16 +57,19 @@ module.exports.addToy = (toy, childId) => {
     });
 };
 
-// resolves id of given child name if child exists; if not, rejects
+// resolves id of given child name if child exists
+// rejects if child doesn't exist
 module.exports.getChildId = child => {
     return new Promise((resolve, reject) => {
-        if (parseInt(child)) {
-            resolve(+child);
+        let id = parseInt(child);
+        if (id == id) {
+            resolve(id);
+        } else {
+            db.all(`SELECT id FROM children WHERE children.name = "${child}"`, (err, data) => {
+                if (err) return reject(err);
+                data[0] ? resolve(data[0].id) : reject();
+            })
         }
-        db.all(`SELECT id FROM children WHERE children.name = "${child}"`, (err, data) => {
-            if (err) return reject(err);
-            data[0] ? resolve(data[0].id) : reject();
-        })
     });
 }
 
@@ -87,7 +92,8 @@ module.exports.addChild = child => {
     });
 };
 
-// returns id of the toy belonging to child; rejects if none
+// returns id of the toy belonging to child
+// rejects if none
 module.exports.getToy = (toy, child) => {
     return new Promise((resolve, reject) => {
         module.exports.getChildId(child)
@@ -108,6 +114,7 @@ module.exports.getToy = (toy, child) => {
     });
 };  
 
+// removes given index of bag table
 module.exports.deleteToy = toyId => {
     return new Promise((resolve, reject) => {
         db.run(`DELETE FROM bag WHERE id = ${toyId}`, function(err) {
