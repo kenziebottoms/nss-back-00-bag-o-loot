@@ -1,5 +1,9 @@
 # Bag o' Loot
 
+![](https://img.shields.io/badge/modularity-node-green.svg)
+![](https://img.shields.io/badge/mvp-working-green.svg)
+![](https://img.shields.io/badge/testing-chai+mocha-a40802.svg)
+
 You have an acquaintance whose job is to, once a year, delivery presents to the best kids around the world. They have a problem, though. There are so many good boys and girls in the world now, that their old paper accounting systems just don't cut it anymore. They want you to write a program that will let them do the following tasks.
 
 - [x] Add a toy to the bag o' loot, and label it with the child's name who will receive it.
