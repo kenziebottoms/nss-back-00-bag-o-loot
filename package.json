@@ -13,15 +13,18 @@
   "scripts": {
     "test": "mocha -R nyan --watch"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kenziebottoms/nss-back-00-bag-o-loot.git"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/kenziebottoms/nss-back-00-bag-o-loot/issues"
+  "directories": {
+    "test": "test"
   },
-  "homepage": "https://github.com/kenziebottoms/nss-back-00-bag-o-loot#readme"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kenziebottoms/nss-back-01-bag-o-loot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kenziebottoms/nss-back-01-bag-o-loot/issues"
+  },
+  "homepage": "https://github.com/kenziebottoms/nss-back-01-bag-o-loot#readme"
 }
